@@ -8,7 +8,7 @@ return [
         'app_name' => 'Qulto KDS Feltöltő Felület',
         'app_version' => APP_VERSION,
         'language' => 'hungarian',
-        'logo' => './images/qulto_logo.png',
+        'logo' => './assets/qulto_logo.png',
         'upload_max_size' => 10 * 1024 * 1024 * 1024, // 10GB
         'upload_chunk_size' => 1 * 1024 * 1024, // 1MB
         'upload_simultaneous' => 3,
