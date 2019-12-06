@@ -5,11 +5,11 @@ return [
     'public_dir' => APP_PUBLIC_DIR,
 
     'frontend_config' => [
-        'app_name' => 'FileGator',
+        'app_name' => 'Qulto KDS Feltöltő Felület',
         'app_version' => APP_VERSION,
-        'language' => 'english',
-        'logo' => 'https://raw.githubusercontent.com/filegator/filegator/master/dist/img/logo.png',
-        'upload_max_size' => 100 * 1024 * 1024, // 100MB
+        'language' => 'hungarian',
+        'logo' => './images/qulto_logo.png',
+        'upload_max_size' => 10 * 1024 * 1024 * 1024, // 10GB
         'upload_chunk_size' => 1 * 1024 * 1024, // 1MB
         'upload_simultaneous' => 3,
         'default_archive_name' => 'archive.zip',
