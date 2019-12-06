@@ -2,6 +2,8 @@ import moment from 'moment'
 import store from '../store.js'
 import api from '../api/api'
 
+
+import hungarian from '../translations/hungarian'
 import english from '../translations/english'
 import spanish from '../translations/spanish'
 import german from '../translations/german'
@@ -21,6 +23,8 @@ const funcs = {
     lang(term, ...rest) {
 
       let available_languages = {
+
+        'hungarian': hungarian,
         'english': english,
         'spanish': spanish,
         'german': german,
