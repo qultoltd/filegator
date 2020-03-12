@@ -5,7 +5,7 @@ return [
     'public_dir' => APP_PUBLIC_DIR,
 
     'frontend_config' => [
-        'app_name' => 'Qulto KDS Feltöltő Felület',
+        'app_name' => 'Qulto Digitalizáló keretrendszer',
         'app_version' => APP_VERSION,
         'language' => 'hungarian',
         'logo' => './img/qulto_logo.png',

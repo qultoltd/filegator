@@ -177,7 +177,7 @@ export default {
   computed: {
     breadcrumbs() {
       let path = ''
-      let breadcrumbs = [{name: this.lang('Home'), path: '/'}]
+      let breadcrumbs = [{name: this.$store.state.user.name, path: '/'}]
 
       _.forEach(_.split(this.$store.state.cwd.location, '/'), (dir) => {
         path += dir + '/'
