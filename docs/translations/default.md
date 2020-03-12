@@ -8,12 +8,19 @@ Language is configured by adjusting `language` variable in your `configuration.p
 
 Available languages:
 
-- english (default)
-- spanish
-- german
-- indonesian
-- turkish
-- lithuanian
+- ```english``` (default)
+- ```spanish```
+- ```german```
+- ```indonesian```
+- ```turkish```
+- ```lithuanian```
+- ```portuguese```
+- ```dutch```
+- ```chinese``` (simplified)
+- ```bulgarian```
+- ```serbian```
+- ```french```
+- ```slovak```
 
 Please help us translating FileGator to your language by submitting a Pull Request on GitHub.
 
@@ -103,6 +110,7 @@ const data = {
   'Updated': 'Updated',
   'Deleted': 'Deleted',
   'Your file is ready': 'Your file is ready',
+  'View': 'View',
 }
 
 export default data

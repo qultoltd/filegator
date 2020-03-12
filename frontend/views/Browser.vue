@@ -25,8 +25,11 @@
             </ul>
           </div>
           <div>
+            <a id="search" class="search-btn" @click="search">
+              <b-icon icon="search" size="is-small" />
+            </a>
             <a id="sitemap" class="is-paddingless" @click="selectDir">
-              <b-icon icon="sitemap" class="is-marginless" size="is-small" />
+              <b-icon icon="sitemap" size="is-small" />
             </a>
           </div>
         </div>
@@ -113,6 +116,9 @@
                 <b-dropdown-item v-if="props.row.type == 'file' && can('download')" aria-role="listitem" @click="download(props.row)">
                   <b-icon icon="download" size="is-small" /> {{ lang('Download') }}
                 </b-dropdown-item>
+                <b-dropdown-item v-if="props.row.type == 'file' && can(['download']) && hasPreview(props.row.path)" aria-role="listitem" @click="preview(props.row)">
+                  <b-icon icon="file-alt" size="is-small" /> {{ lang('View') }}
+                </b-dropdown-item>
                 <b-dropdown-item v-if="can('write')" aria-role="listitem" @click="copy($event, props.row)">
                   <b-icon icon="copy" size="is-small" /> {{ lang('Copy') }}
                 </b-dropdown-item>
@@ -131,7 +137,7 @@
                 <b-dropdown-item v-if="can('write')" aria-role="listitem" @click="remove($event, props.row)">
                   <b-icon icon="trash-alt" size="is-small" /> {{ lang('Delete') }}
                 </b-dropdown-item>
-                <b-dropdown-item v-if="props.row.type == 'file' && can('download')" v-clipboard:copy="getDownloadLink(props.row)" aria-role="listitem">
+                <b-dropdown-item v-if="props.row.type == 'file' && can('download')" v-clipboard:copy="getDownloadLink(props.row.path)" aria-role="listitem">
                   <b-icon icon="clipboard" size="is-small" /> {{ lang('Copy link') }}
                 </b-dropdown-item>
               </b-dropdown>
@@ -151,11 +157,13 @@
 import Vue from 'vue'
 import Menu from './partials/Menu'
 import Tree from './partials/Tree'
+import Editor from './partials/Editor'
+import Gallery from './partials/Gallery'
+import Search from './partials/Search'
 import Pagination from './partials/Pagination'
 import Upload from './partials/Upload'
 import api from '../api/api'
 import VueClipboard from 'vue-clipboard2'
-import { Base64 } from 'js-base64'
 import _ from 'lodash'
 
 Vue.use(VueClipboard)
@@ -193,9 +201,9 @@ export default {
       return this.$store.state.cwd.content
     },
     totalCount() {
-      return _.sumBy(this.$store.state.cwd.content, (o) => {
+      return Number(_.sumBy(this.$store.state.cwd.content, (o) => {
         return o.type == 'file' || o.type == 'dir'
-      }) || 0
+      }))
     },
   },
   watch: {
@@ -238,7 +246,7 @@ export default {
         .catch(error => this.handleError(error))
     },
     goTo(path) {
-      this.$router.push({ name: 'browser', query: { 'cd': path }})
+      this.$router.push({ name: 'browser', query: { 'cd': path }}).catch(() => {})
     },
     getSelected() {
       return _.reduce(this.checked, function(result, value) {
@@ -249,7 +257,9 @@ export default {
     itemClick(item) {
       if (item.type == 'dir' || item.type == 'back') {
         this.goTo(item.path)
-      } else {
+      } else if (this.can(['download']) && this.hasPreview(item.path)) {
+        this.preview(item)
+      } else if (this.can(['download'])) {
         this.download(item)
       }
     },
@@ -335,17 +345,35 @@ export default {
           this.handleError(error)
         })
     },
-    getDownloadLink(item) {
-      return Vue.config.baseURL+'/download&path='+encodeURIComponent(Base64.encode(item.path))
-    },
     download(item) {
-      window.open(this.getDownloadLink(item), '_blank')
+      window.open(this.getDownloadLink(item.path), '_blank')
     },
     search() {
-      // TODO: create search logic
+      this.$modal.open({
+        parent: this,
+        hasModalCard: true,
+        component: Search,
+        events: {
+          selected: item => {
+            this.goTo(item.dir)
+          }
+        },
+      })
     },
-    edit() {
-      // TODO: create edit file logic
+    preview(item) {
+      let modal = null
+      if (this.isImage(item.path)) {
+        modal = Gallery
+      }
+      if (this.isText(item.path)) {
+        modal = Editor
+      }
+      this.$modal.open({
+        parent: this,
+        props: { item: item },
+        hasModalCard: true,
+        component: modal,
+      })
     },
     isArchive(item) {
       return item.type == 'file' && item.name.split('.').pop() == 'zip'
@@ -559,5 +587,8 @@ export default {
 }
 .drop-info {
   margin: 20% auto;
+}
+.search-btn {
+  margin-right: 10px;
 }
 </style>

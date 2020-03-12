@@ -1,6 +1,8 @@
+import Vue from 'vue'
 import moment from 'moment'
 import store from '../store.js'
 import api from '../api/api'
+import { Base64 } from 'js-base64'
 
 
 import hungarian from '../translations/hungarian'
@@ -10,6 +12,13 @@ import german from '../translations/german'
 import indonesian from '../translations/indonesian'
 import turkish from '../translations/turkish'
 import lithuanian from '../translations/lithuanian'
+import portuguese from '../translations/portuguese'
+import dutch from '../translations/dutch'
+import chinese from '../translations/chinese'
+import bulgarian from '../translations/bulgarian'
+import serbian from '../translations/serbian'
+import french from '../translations/french'
+import slovak from '../translations/slovak'
 
 const funcs = {
   methods: {
@@ -31,6 +40,13 @@ const funcs = {
         'indonesian': indonesian,
         'turkish': turkish,
         'lithuanian': lithuanian,
+        'portuguese': portuguese,
+        'dutch': dutch,
+        'chinese': chinese,
+        'bulgarian': bulgarian,
+        'serbian': serbian,
+        'french': french,
+        'slovak': slovak,
       }
 
       let language = store.state.config.language
@@ -38,7 +54,7 @@ const funcs = {
       let args = rest
       if(!available_languages[language] || available_languages[language][term] == undefined) {
         // translation required
-        return 'TR: '+term
+        return term
       }
       return available_languages[language][term].replace(/{(\d+)}/g, function(match, number) {
         return typeof args[number] != 'undefined'
@@ -64,7 +80,7 @@ const funcs = {
       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
     },
     formatDate(timestamp) {
-      return moment.unix(timestamp).format('YY/MM/DD hh:mm:ss')
+      return moment.unix(timestamp).format(store.state.config.date_format ? store.state.config.date_format : 'YY/MM/DD hh:mm:ss')
     },
     checkUser() {
       api.getUser()
@@ -108,7 +124,25 @@ const funcs = {
         type: 'is-danger',
         duration: 5000,
       })
-    }
+    },
+    getDownloadLink(path) {
+      return Vue.config.baseURL+'/download&path='+encodeURIComponent(Base64.encode(path))
+    },
+    hasPreview(name) {
+      return this.isText(name) || this.isImage(name)
+    },
+    isText(name) {
+      return this.hasExtension(name, store.state.config.editable ? store.state.config.editable : ['.txt'])
+    },
+    isImage(name) {
+      return this.hasExtension(name, ['.jpg', '.jpeg', '.gif', '.png', '.bmp', '.tiff'])
+    },
+    hasExtension(name, exts) {
+      return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$', 'i')).test(name)
+    },
+    capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+    },
   }
 }
 

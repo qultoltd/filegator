@@ -65,18 +65,39 @@ class DownloadController
             // @codeCoverageIgnoreEnd
         });
 
+        $contentDisposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $file['filename'], 'file');
+        $contentType = 'application/octet-stream';
+
+        if (pathinfo($file['filename'], PATHINFO_EXTENSION) == 'pdf') {
+            $contentDisposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_INLINE, $file['filename'], 'file');
+            $contentType = 'application/pdf';
+        }
+
         $streamedResponse->headers->set(
             'Content-Disposition',
-            HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $file['filename'], 'file')
+            $contentDisposition
         );
         $streamedResponse->headers->set(
             'Content-Type',
-            'application/octet-stream'
+            $contentType
         );
         $streamedResponse->headers->set(
             'Content-Transfer-Encoding',
             'binary'
         );
+
+        // @codeCoverageIgnoreStart
+        if (APP_ENV == 'development') {
+            $streamedResponse->headers->set(
+                'Access-Control-Allow-Origin',
+                $request->headers->get('Origin')
+            );
+            $streamedResponse->headers->set(
+                'Access-Control-Allow-Credentials',
+                'true'
+            );
+        }
+        // @codeCoverageIgnoreEnd
 
         // close session so we can continue streaming, note: dev is single-threaded
         $this->session->save();

@@ -70,6 +70,10 @@ const data = {
   'Updated': 'Atnaujintas',
   'Deleted': 'Ištrintas',
   'Your file is ready': 'Jūsų failas paruoštas',
+  'View': 'View',
+  'Search': 'Search',
+  'Download permission': 'Atsiųsti',
+  'Guest': 'Guest',
 }
 
 export default data

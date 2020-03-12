@@ -24,6 +24,15 @@ describe('Browser', () => {
     cy.contains('My Documents')
   })
 
+  it('Preview & edit txt file', () => {
+    cy.visit('/')
+    cy.contains('read_only_demo.txt')
+    cy.get('.dropdown').last().click()
+    cy.get('.fa-file-alt').last().click()
+    cy.contains('Close')
+    cy.contains('Save')
+  })
+
   it('Go to subfolder', () => {
     cy.visit('/')
     cy.contains('My Documents').click()
@@ -43,7 +52,7 @@ describe('Browser', () => {
     cy.contains('a.navbar-item', 'Files')
     cy.contains('a.navbar-item', 'Users')
     cy.contains('a.navbar-item', 'Log out')
-    cy.contains('a.navbar-item', 'Profile').click()
+    cy.contains('a.navbar-item', 'Admin').click()
     cy.contains('.modal', 'Old password')
     cy.contains('.modal', 'New password')
     cy.get('.modal-close').click()
@@ -118,6 +127,16 @@ describe('Browser', () => {
     cy.get('#sitemap').click()
     cy.contains('Projects')
     cy.contains('Test')
+    cy.contains('Close').click()
+  })
+
+  it('Search', () => {
+    cy.viewport(1024, 768)
+    cy.visit('/')
+    cy.contains('My Documents').click()
+    cy.get('#search').click()
+    cy.contains('Search')
+    cy.contains('Name')
     cy.contains('Close').click()
   })
 

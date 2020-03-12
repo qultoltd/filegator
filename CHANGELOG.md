@@ -1,5 +1,50 @@
 # Chanelog
 
+## Upcoming...
+
+## 7.3.3 - 2020-03-08
+
+* Download filename bugfix
+* Language fix
+
+## 7.3.2 - 2020-03-06
+
+* View PDF files in the browser (thanks @pauloklaus)
+* Fixes #31 #51
+* Password reveal added to login screen
+* Language fix
+
+## 7.3.1 - 2020-02-26
+
+* Fixes for #41 #42 #43 #45 #46 #47
+* Slovak translation (thanks @jannyba)
+
+## 7.3.0 - 2020-02-25
+
+* Search feature
+
+## 7.2.1 - 2020-02-21
+
+* Better editor & image gallery
+* New config: `editable` (file extensions that can be opened with editor)
+* New config: `date_format`
+
+## 7.2.0 - 2020-02-20
+
+* File preview & edit feature added (preview images, edit txt files)
+
+## 7.1.6 - 2020-01-12
+
+* Translations added, Bulgarian, Serbian, French
+
+## 7.1.5 - 2020-01-09
+
+* Translations added, Dutch, Chinese
+
+## 7.1.4 - 2019-12-30
+
+* npm updates, vue & vue-cli
+
 ## 7.1.3 - 2019-12-04
 
 * Symfony update, fixes CVE-2019-18888

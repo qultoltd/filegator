@@ -29,7 +29,7 @@
           {{ lang('Login') }}
         </a>
         <a v-if="!is('guest')" class="navbar-item" @click="profile">
-          {{ lang('Profile') }}
+          {{ this.$store.state.user.name }}
         </a>
         <a v-if="!is('guest')" class="navbar-item" @click="logout">
           {{ lang('Logout') }}
@@ -63,7 +63,7 @@ export default {
           api.getUser()
             .then(user => {
               this.$store.commit('setUser', user)
-              this.$router.push('/login')
+              this.$router.push('/')
             })
             .catch(() => {
               this.$store.commit('initialize')

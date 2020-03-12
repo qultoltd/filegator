@@ -24,6 +24,10 @@ if (! is_writable(__DIR__.'/../repository/')) {
     die;
 }
 
+if (! file_exists(__DIR__.'/../configuration.php')) {
+    copy(__DIR__.'/../configuration_sample.php', __DIR__.'/../configuration.php');
+}
+
 require __DIR__.'/../vendor/autoload.php';
 
 if (! defined('APP_ENV')) {
@@ -35,7 +39,7 @@ if (! defined('APP_PUBLIC_PATH')) {
 }
 
 define('APP_PUBLIC_DIR', __DIR__);
-define('APP_VERSION', '7.1.3');
+define('APP_VERSION', '7.3.3');
 
 use Filegator\App;
 use Filegator\Config\Config;
