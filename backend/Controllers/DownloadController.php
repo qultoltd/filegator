@@ -68,9 +68,17 @@ class DownloadController
         $contentDisposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $file['filename'], 'file');
         $contentType = 'application/octet-stream';
 
+        // pdf
         if (pathinfo($file['filename'], PATHINFO_EXTENSION) == 'pdf') {
             $contentDisposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_INLINE, $file['filename'], 'file');
             $contentType = 'application/pdf';
+        }
+
+        // tiff 
+        if (pathinfo($file['filename'], PATHINFO_EXTENSION) == 'tif'
+          || pathinfo($file['filename'], PATHINFO_EXTENSION) == 'tiff') {
+          $contentDisposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_INLINE, $file['filename'], 'file');
+          $contentType = 'image/tiff';
         }
 
         $streamedResponse->headers->set(
